@@ -1,10 +1,7 @@
 function camelize(str) {
-  let result = str.split('');
-  for (let i = 0; i < result.length; i++) {
-    if (result[i] == '-') {
-      result.splice(i+1,1,result[i+1].toUpperCase());
-    };
-  }
-
-  return result.filter(item => item != '-').join('');
+  return str.split('-')
+    .map((item, index) => {
+      return index != 0 ? (item[0].toUpperCase() + item.slice(1)) : item;
+    })
+    .join('');
 }
