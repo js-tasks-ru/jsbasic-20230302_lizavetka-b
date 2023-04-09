@@ -43,7 +43,7 @@ export default class Carousel {
     return outer;
   }  
   
-    watch = (event) => {
+    #onArrowClick = (event) => {
       let right = this.elem.querySelector('.carousel__arrow_right');
       let left = this.elem.querySelector('.carousel__arrow_left');
       let target = event.target.closest('div'); // где был клик?
@@ -93,7 +93,7 @@ export default class Carousel {
   #chooseClick = (event) => {
     if (event.target.closest('.carousel__button')) {
       this.onButtonClick(event);
-    } else this.watch(event);
+    } else this.#onArrowClick(event);
   }  
   
   onButtonClick = (event) => {
