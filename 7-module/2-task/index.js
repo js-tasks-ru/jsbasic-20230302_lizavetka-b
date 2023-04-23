@@ -51,24 +51,27 @@ export default class Modal {
     this.elem.querySelector('.modal__body').append(this.body);
   }
 
-  close = (event) => {
-    if (event) {
-      if (event.type == 'click') {
-      let target = event.target.closest('.modal__close');
-      if (!target) return;
-      } else if ((event.type == 'keydown') && (event.code != 'Escape')) return;
-    }
-    
+  close = () => {   
       this.elem.remove();
       document.body.classList.remove('is-modal-open');
-      document.removeEventListener('keydown', this.close);
+      document.removeEventListener('keydown', this.#onEscapeClick);
+  }
+
+  #onCloseClick = (event) => {
+    let target = event.target.closest('.modal__close');
+    if (!target) return;
+    this.close();
+    }  
   
+  #onEscapeClick = (event) => {
+    if ((event.type == 'keydown') && (event.code != 'Escape')) return;
+    this.close();
   }
 
   #render() {
     let elem = this.#modalTemplate();
-    elem.addEventListener('click', this.close);
-    document.addEventListener('keydown', this.close);
+    elem.addEventListener('click', this.#onCloseClick);
+    document.addEventListener('keydown', this.#onEscapeClick);
     return elem;
   }
 }

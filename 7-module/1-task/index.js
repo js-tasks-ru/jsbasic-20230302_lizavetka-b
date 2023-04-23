@@ -39,16 +39,14 @@ export default class RibbonMenu {
       if (!(target == left || target == right)) return; // не на стрелке? тогда не интересует
       let width = 350;
     
-      let moveItems = () => { //сдвиг меню
-        let ribbonInner = this.elem.querySelector('.ribbon__inner');
-        if (target == left) {
-          ribbonInner.scrollBy(-width, 0);
-        } else {
-          ribbonInner.scrollBy(width, 0);
-        }
-      };
+      //сдвиг меню
+      let ribbonInner = this.elem.querySelector('.ribbon__inner');
+      if (target == left) {
+        ribbonInner.scrollBy(-width, 0);
+      } else {
+        ribbonInner.scrollBy(width, 0);
+      }
     
-     moveItems();
      this.checkArrow();
   }
 
