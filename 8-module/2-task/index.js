@@ -5,8 +5,7 @@ export default class ProductGrid {
   constructor(products) {
     this.products = products;
     this.filters = {};
-    this.elem = this.#render();
-    this.filtered = this.products;
+    this.elem = this.render();
   }
 
   #productGridTemplate(products) {
@@ -25,13 +24,20 @@ export default class ProductGrid {
   }
 
   updateFilter(filters) {
-    let filtered = this.filtered;
-    
-    if (filters.noNuts == true) {
+    let filtered = this.products;
+
+    for (let key in this.filters) {
+      if (!(key in filters)) {
+        filters[key] = this.filters[key];
+      }
+    }
+
+    if (filters.noNuts) {
       filtered = filtered.filter(item => 
-        ((item.nuts == 'false') || ('nuts' in item) == false));
+       ((item.nuts == false) || ('nuts' in item) == false));
+      // (item.nuts != ));
     } 
-    if (filters.vegeterianOnly == true) {
+    if (filters.vegeterianOnly) {
       filtered = filtered.filter(item => 
         (item.vegeterian == true));
     }
@@ -45,16 +51,13 @@ export default class ProductGrid {
     }
     
     this.elem = this.#productGridTemplate(filtered); 
-    this.filtered = filtered;
-    console.log(filtered);
-
+    this.filters = filters;
     document.querySelector('.products-grid').replaceWith(this.elem);
     
-   // this.elem = temp;
     return (this.elem);
   }
 
-  #render() {
+  render() {
     const elem = this.#productGridTemplate(this.products);
 
     return elem;

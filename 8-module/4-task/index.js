@@ -128,7 +128,7 @@ export default class Cart {
       }
     }
     this.modal.body.addEventListener('click', updateProduct);
-    this.modal.body.addEventListener('submit',this.onSubmit);
+    document.querySelector('.cart-form').addEventListener('submit',this.onSubmit);
    
     return this.modal;
     
@@ -136,9 +136,9 @@ export default class Cart {
 
   onProductUpdate(cartItem) {
     this.cartIcon.update(this);
-    if (!(document.body.className =='is-modal-open')) return;
+    if (!(document.body.classList.contains('is-modal-open'))) return;
     
-    let modalBody = document.querySelector('.modal');
+    let modalBody = this.modal.elem;
     if (this.isEmpty()) {
       this.modal.close();
       return;

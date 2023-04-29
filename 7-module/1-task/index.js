@@ -5,7 +5,7 @@ export default class RibbonMenu {
 
   constructor(categories) {
     this.categories = categories;
-    this.elem = this.#render();
+    this.elem = this.render();
   }
 
   #menuTemplate() {
@@ -29,6 +29,7 @@ export default class RibbonMenu {
       `);
       outer.querySelector('.ribbon__inner').append(inner);
     }
+    outer.querySelector('.ribbon__item').classList.add('ribbon__item_active');
     return outer;
   }
 
@@ -98,7 +99,7 @@ export default class RibbonMenu {
    }
 
 
-  #render() {
+  render() {
     const elem = this.#menuTemplate(); 
     elem.addEventListener('click', this.#chooseClick);
    

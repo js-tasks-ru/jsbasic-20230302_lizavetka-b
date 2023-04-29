@@ -2,24 +2,26 @@ import createElement from '../../assets/lib/create-element.js';
 
 export default class StepSlider {
   
-  constructor({ steps, value = 0 }) {
+  constructor({ steps, value = 2 }) {
     this.steps = steps;
     this.value = value;
-    this.elem = this.#render();
+    this.elem = this.render();
   }
 
   #sliderTemplate() {
+    let percentage = this.value / (this.steps-1) * 100;
+   
     let outer = createElement(`
     <!--Корневой элемент слайдера-->
   <div class="slider">
 
     <!--Ползунок слайдера с активным значением-->
-    <div class="slider__thumb" style="left: 0%;">
+    <div class="slider__thumb" style="left: ${percentage}%;">
       <span class="slider__value">${this.value}</span>
     </div>
 
     <!--Заполненная часть слайдера-->
-    <div class="slider__progress" style="width: 0%;"></div>
+    <div class="slider__progress" style="width: ${percentage}%;"></div>
 
     <!--Шаги слайдера-->
     <div class="slider__steps">
@@ -28,10 +30,13 @@ export default class StepSlider {
 
     for (let i = 0; i < this.steps; i++) {
       let inner = createElement(`<span></span>`);
+      if (i == this.value) {
+        inner.classList.add('slider__step-active');
+      }
       outer.querySelector('.slider__steps').append(inner);
     }
-    outer.querySelector('.slider__steps').children[this.value].classList.add('slider__step-active');
-    return outer;
+    
+   return outer;
   }
 
   #moveSlider = (event) => {
@@ -128,7 +133,7 @@ export default class StepSlider {
     this.elem.dispatchEvent(sliderChange);
   };
 
-  #render() {
+  render() {
     let elem = this.#sliderTemplate();
     elem.addEventListener('pointerdown', this.#onPointer);
     elem.addEventListener('click', this.#moveSlider);

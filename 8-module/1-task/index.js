@@ -9,6 +9,7 @@ export default class CartIcon {
 
   render() {
     this.elem = createElement('<div class="cart-icon"></div>');
+    return this.elem;
   }
 
   update(cart) {

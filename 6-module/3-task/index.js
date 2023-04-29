@@ -5,7 +5,7 @@ export default class Carousel {
   
   constructor(slides) {
     this.slides = slides;
-    this.elem = this.#render();
+    this.elem = this.render();
     this.position = 0;
   }
 
@@ -51,7 +51,6 @@ export default class Carousel {
       let width = this.elem.querySelector('.carousel__slide').offsetWidth;
       let maxWidth = width * (this.slides.length-1);
       
-      //let position = 0;
       this.position = changePos(this.position, target); // обнуляется!
       
 
@@ -106,7 +105,7 @@ export default class Carousel {
    this.elem.dispatchEvent(buttonEvent);
    }
 
-  #render() {
+  render() {
    const elem = this.#carouselTemplate(); 
     
    elem.querySelector('.carousel__arrow_left').style.display = 'none';
