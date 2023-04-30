@@ -41,7 +41,7 @@ export default class StepSlider {
       let currentPos = target - sliderPos.x;
       let oneStep = sliderPos.width / (this.steps-1);
       this.value = Math.round(currentPos / oneStep);
-      console.log(this.value);
+      //получение процентов:
       let percentage = this.value / (this.steps-1) * 100;
 
       let temp = this.elem.querySelector('.slider__steps'); //удаление предыдущих активных классов
@@ -60,9 +60,10 @@ export default class StepSlider {
       this.elem.querySelector('.slider__thumb').style = `left: ${percentage}%`; 
       this.elem.querySelector('.slider__progress').style = `width: ${percentage}%`;
 
-      let sliderChange = new CustomEvent('slider-change', { // имя события должно быть именно 'slider-change'
-        detail: this.value, // значение 0, 1, 2, 3, 4
-        bubbles: true // событие всплывает - это понадобится в дальнейшем
+      //генерация события
+      let sliderChange = new CustomEvent('slider-change', { 
+        detail: this.value, 
+        bubbles: true 
       });
       this.elem.dispatchEvent(sliderChange);
   }

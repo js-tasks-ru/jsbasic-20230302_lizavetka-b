@@ -48,7 +48,7 @@ export default class RibbonMenu {
         ribbonInner.scrollBy(width, 0);
       }
     
-     this.checkArrow();
+      ribbonInner.addEventListener('scroll', this.checkArrow);
   }
 
   checkArrow = () => { //проверка стрелок

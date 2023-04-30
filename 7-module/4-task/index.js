@@ -5,7 +5,7 @@ export default class StepSlider {
   constructor({ steps, value = 2 }) {
     this.steps = steps;
     this.value = value;
-    this.elem = this.render();
+    this.elem = this.#render();
   }
 
   #sliderTemplate() {
@@ -133,7 +133,7 @@ export default class StepSlider {
     this.elem.dispatchEvent(sliderChange);
   };
 
-  render() {
+  #render() {
     let elem = this.#sliderTemplate();
     elem.addEventListener('pointerdown', this.#onPointer);
     elem.addEventListener('click', this.#moveSlider);
