@@ -5,7 +5,7 @@ export default class StepSlider {
   constructor({ steps, value = 0 }) {
     this.steps = steps;
     this.value = value;
-    this.elem = this.render();
+    this.elem = this.#render();
   }
 
   #sliderTemplate() {
@@ -14,12 +14,12 @@ export default class StepSlider {
   <div class="slider">
 
     <!--Ползунок слайдера с активным значением-->
-    <div class="slider__thumb" style="left: 50%;">
+    <div class="slider__thumb" style="left: 0%;">
       <span class="slider__value">${this.value}</span>
     </div>
 
     <!--Заполненная часть слайдера-->
-    <div class="slider__progress" style="width: 50%;"></div>
+    <div class="slider__progress" style="width: 0%;"></div>
 
     <!--Шаги слайдера-->
     <div class="slider__steps">
@@ -67,7 +67,7 @@ export default class StepSlider {
       this.elem.dispatchEvent(sliderChange);
   }
 
-  render() {
+  #render() {
     let elem = this.#sliderTemplate();
     elem.addEventListener('click', this.#moveSlider);
     return elem;
