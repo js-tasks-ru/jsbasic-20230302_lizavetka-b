@@ -30,6 +30,12 @@ export default class RibbonMenu {
       outer.querySelector('.ribbon__inner').append(inner);
     }
     outer.querySelector('.ribbon__item').classList.add('ribbon__item_active');
+//проба 
+    outer.querySelector('.ribbon__inner').addEventListener('click', this.onButtonClick);
+    
+    outer.querySelector('.ribbon__arrow_left').addEventListener('click', this.#moveMenu);
+    outer.querySelector('.ribbon__arrow_right').addEventListener('click', this.#moveMenu);
+
     return outer;
   }
 
@@ -75,22 +81,27 @@ export default class RibbonMenu {
     }
   }
 
-  #chooseClick = (event) => {
+/*  #chooseClick = (event) => {
     if (event.target.closest('.ribbon__item')) {
       this.onButtonClick(event);
-    } else this.#moveMenu(event);
-  }  
+    } else if (event.target.closest('.ribbon__arrow')) {
+      this.#moveMenu(event);
+    }
+  } */ 
   
   onButtonClick = (event) => {
-   let target = event.target;
     event.preventDefault();
     
+    let target = event.target;
+    //удаление активных классов
     let elements = this.elem.querySelectorAll('.ribbon__item');
     for (let i = 0; i < elements.length; i++) {
       elements[i].classList.remove('ribbon__item_active');
     }
+    //выделение выбранной категории
     target.classList.add('ribbon__item_active');
 
+    //генерация пользовательского события
    let buttonEvent = new CustomEvent('ribbon-select', {
        bubbles: true,
        detail: target.dataset.id
@@ -101,8 +112,8 @@ export default class RibbonMenu {
 
   #render() {
     const elem = this.#menuTemplate(); 
-    elem.addEventListener('click', this.#chooseClick);
-   
+  //  elem.addEventListener('click', this.#chooseClick);
+
     return elem;
   }
 }

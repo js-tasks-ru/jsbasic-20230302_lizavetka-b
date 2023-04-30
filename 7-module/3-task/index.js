@@ -57,8 +57,10 @@ export default class StepSlider {
       //изменения значений
       this.elem.querySelector('.slider__value').textContent= this.value;
       this.elem.querySelector('.slider__steps').childNodes[this.value+1].classList.add('slider__step-active');
-      this.elem.querySelector('.slider__thumb').style = `left: ${percentage}%`; 
-      this.elem.querySelector('.slider__progress').style = `width: ${percentage}%`;
+    //this.elem.querySelector('.slider__thumb').style = `left: ${percentage}%`; 
+      this.elem.querySelector('.slider__thumb').style.left = `${percentage}%`; 
+      //this.elem.querySelector('.slider__progress').style = `width: ${percentage}%`;
+      this.elem.querySelector('.slider__progress').style.width = `${percentage}%`;
 
       //генерация события
       let sliderChange = new CustomEvent('slider-change', { 

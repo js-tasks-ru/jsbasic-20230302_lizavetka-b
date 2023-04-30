@@ -77,22 +77,6 @@ export default class Main {
     });
   }
 
- /* changeCheckBox = (event) => {
-   
-    if (event.target.id == 'nuts-checkbox') {
-      if (document.querySelector('.nuts-checkbox').checked) {
-        this.grid.updateFilter({
-          noNuts: event.target.checked 
-        });
-      }
-      
-    } else if (event.target.id == 'vegeterian-checkbox') {
-      this.grid.updateFilter({
-        vegeterianOnly: event.target.checked  
-      });
-    }
-  }*/
-
   nutsControl = (event) => {
       this.grid.updateFilter({ noNuts: event.target.checked });
     };
@@ -117,7 +101,7 @@ export default class Main {
     document.body.addEventListener('product-add', this.productAdd);
     document.body.addEventListener('slider-change', this.updateSpiciness);
     document.body.addEventListener('ribbon-select', this.selectRibbon);
-   // document.body.addEventListener('change', this.changeCheckBox);
+   
     let noNutsControl = document.querySelector('#nuts-checkbox');
     noNutsControl.addEventListener('change',this.nutsControl);
 
