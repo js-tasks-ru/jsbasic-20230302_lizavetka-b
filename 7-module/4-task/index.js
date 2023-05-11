@@ -77,8 +77,8 @@ export default class StepSlider {
   #onPointer = (event) => {
     let thumb = this.elem.querySelector('.slider__thumb'); 
     thumb.ondragstart = () => false; //выключить встроенный браузерный Drag-and-Drop
-    thumb.onpointerdown.preventDefault();
-    thumb.onpointermove.preventDefault();
+    thumb.style = 'touch-action: none';
+    
     
     //подготовить к перемещению
       thumb.style.position = 'absolute';
