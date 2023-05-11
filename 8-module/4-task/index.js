@@ -180,13 +180,11 @@ export default class Cart {
         body: formData
       });
   
-    responsePromise.then((response) => {
-    
-      console.log('Get Response', response);
-        
-      response.json().then((json) => {
-        console.log(json);
-          
+    responsePromise
+      .then((response) => {
+      
+        console.log('Get Response', response);
+
         if (response.status == 200) {
           this.modal.setTitle("Success!"); //Заменить заголовок модального окна 
           this.cartItems = [];  //удаление товаров из корзины
@@ -202,11 +200,11 @@ export default class Cart {
               </div>
             `);
           this.modal.setBody(newBody);
-
         }
-      });
-    });
-      
+          
+      response.json()
+        .then((json) => console.log(json));
+    })
   }  
 
   addEventListeners() {
