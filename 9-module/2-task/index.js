@@ -38,7 +38,7 @@ export default class Main {
 
     //cart 8.4
     this.cart = new Cart(this.cartIcon);
-  }
+  };
 
   //productsGrid 8.2
   renderProducts(products) {  
@@ -61,29 +61,29 @@ export default class Main {
     let product = this.products.find(item => 
       (item.id == productId ));
     this.cart.addProduct(product);
-  }
+  };
 
   updateSpiciness = (event) => {
     let value = event.detail;
     this.grid.updateFilter({
       maxSpiciness: value 
     });
-  }
+  };
 
   selectRibbon = (event) => {
     let categoryId = event.detail;
     this.grid.updateFilter({
       category: categoryId 
     });
-  }
+  };
 
   nutsControl = (event) => {
       this.grid.updateFilter({ noNuts: event.target.checked });
-    };
+  };
 
-    vegeterianControl = (event) => {
-      this.grid.updateFilter({ vegeterianOnly: event.target.checked });
-    };
+  vegeterianControl = (event) => {
+    this.grid.updateFilter({ vegeterianOnly: event.target.checked });
+  };
 
 
   async render() {
@@ -93,21 +93,24 @@ export default class Main {
     let response = await fetch('products.json');
     if (response.ok) { 
       let products = await response.json();
+      
       this.renderProducts(products); 
+
+      document.body.addEventListener('product-add', this.productAdd);
+      document.body.querySelector('.filters__slider').addEventListener('slider-change', this.updateSpiciness);
+      document.body.querySelector('.ribbon').addEventListener('ribbon-select', this.selectRibbon);
+   
+      let noNutsControl = document.querySelector('#nuts-checkbox');
+      noNutsControl.addEventListener('change',this.nutsControl);
+
+      let vegetarianOnlyControl = document.querySelector('#vegeterian-checkbox');
+      vegetarianOnlyControl.addEventListener('change', this.vegeterianControl);
+
     } else {
       console.log("Ошибка HTTP: " + response.status);
     }
-
-    document.body.addEventListener('product-add', this.productAdd);
-    document.body.addEventListener('slider-change', this.updateSpiciness);
-    document.body.addEventListener('ribbon-select', this.selectRibbon);
-   
-    let noNutsControl = document.querySelector('#nuts-checkbox');
-    noNutsControl.addEventListener('change',this.nutsControl);
-
-    let vegetarianOnlyControl = document.querySelector('#vegeterian-checkbox');
-    vegetarianOnlyControl.addEventListener('change', this.vegeterianControl);
   }
+
 }
 
 

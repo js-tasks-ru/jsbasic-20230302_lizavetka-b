@@ -12,7 +12,7 @@ export default class CartIcon {
     return this.elem;
   }
 
-  update(cart) {
+  update(cart) {  //обновление иконки
     if (!cart.isEmpty()) {
       this.elem.classList.add('cart-icon_visible');
 
@@ -39,7 +39,7 @@ export default class CartIcon {
     window.addEventListener('resize', () => this.updatePosition());
   }
 
-  updatePosition() {
+  updatePosition() { //позиционирование на экране
     if (!this.elem.offsetHeight || !this.elem.offsetWidth) return;
 
     if (!this.initialTopCoord) {
@@ -56,7 +56,7 @@ export default class CartIcon {
           position: 'fixed',
           top: '50px',
           left: `${newXPos}px`,
-          zIndex: ''
+          zIndex: 1e3,
         });
 
     } else {

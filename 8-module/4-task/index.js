@@ -11,7 +11,7 @@ export default class Cart {
     this.addEventListeners();
   }
 
-  addProduct(product) {
+  addProduct(product) {  //добавление товара в корзину
     if (!product) return;
     let cartItem;
     let index = this.cartItems.findIndex(item => item.product.name == product.name);
@@ -28,33 +28,40 @@ export default class Cart {
     return this.cartItems;
   }
 
-  updateProductCount(productId, amount) {
+  updateProductCount(productId, amount) { //изменение количества товара в корзине
+    let toDelete;
+    
     let index = this.cartItems.findIndex(item => item.product.id == productId);
     if (index > -1) {
     this.cartItems[index].count += amount;
+    toDelete = this.cartItems[index];
     }
+
     if (this.cartItems[index].count == 0) {
+      toDelete = this.cartItems[index];
       this.cartItems.splice(index, 1);
     } 
-    this.onProductUpdate(this.cartItems[index]);
+   
+    this.onProductUpdate(toDelete);
+    
     return this.cartItems;
   }
 
-  isEmpty() {
+  isEmpty() { //проверка пустоты корзины
     return (this.cartItems.length === 0);
   }
 
-  getTotalCount() {
+  getTotalCount() {  //общее количество товаров в корзине
     let quantity = this.cartItems.reduce((sum, current) => sum + current.count, 0)
     return quantity;
   }
 
-  getTotalPrice() {
+  getTotalPrice() {  //стоимость всех товаров в корзине
     let total = this.cartItems.reduce((sum, current) => sum + (current.count * current.product.price), 0);
     return total;
   }
 
-  renderProduct(product, count) {
+  renderProduct(product, count) { //верстка товара
     return createElement(`
     <div class="cart-product" data-product-id="${
       product.id
@@ -80,7 +87,7 @@ export default class Cart {
     </div>`);
   }
 
-  renderOrderForm() {
+  renderOrderForm() { //верстка формы данных пользователя
     return createElement(`<form class="cart-form">
       <h5 class="cart-form__title">Delivery</h5>
       <div class="cart-form__group cart-form__group_row">
@@ -105,7 +112,7 @@ export default class Cart {
     </form>`);
   }
 
-  renderModal() {
+  renderModal() { //открытие модального окна
     this.modal = new Modal();
     this.modal.setTitle("Your order");
     let body = createElement('<div></div>')
@@ -134,7 +141,7 @@ export default class Cart {
     
   }
 
-  onProductUpdate(cartItem) {
+  onProductUpdate(itemToDelete) { //обновление верстки при изменении количества товара
     this.cartIcon.update(this);
     if (!(document.body.classList.contains('is-modal-open'))) return;
     
@@ -144,19 +151,24 @@ export default class Cart {
       return;
     }
     
-    let productId = cartItem.product.id;
-    
-    let productCount = modalBody.querySelector(`[data-product-id="${productId}"] .cart-counter__count`);
-    let productPrice = modalBody.querySelector(`[data-product-id="${productId}"] .cart-product__price`);
+    let productId = itemToDelete.product.id;
+    if (itemToDelete.count == 0) {
+        modalBody.querySelector(`[data-product-id="${productId}"]`).innerHTML = '';
+    } else { 
+      let productCount = modalBody.querySelector(`[data-product-id="${productId}"] .cart-counter__count`);
+      let productPrice = modalBody.querySelector(`[data-product-id="${productId}"] .cart-product__price`);
+      
+      productCount.innerHTML = itemToDelete.count;
+      productPrice.innerHTML = `€${(itemToDelete.product.price * itemToDelete.count).toFixed(2)}`;
+    }
+
     let infoPrice = modalBody.querySelector(`.cart-buttons__info-price`);
 
-    productCount.innerHTML = cartItem.count;
-    productPrice.innerHTML = `€${(cartItem.product.price * cartItem.count).toFixed(2)}`;
     infoPrice.innerHTML = `€${this.getTotalPrice().toFixed(2)}`;
 
-  }
+    }
 
-  onSubmit = (event) => {
+  onSubmit = (event) => {  //отправка данных пользователя для размещения заказа
   
     event.preventDefault();
 
@@ -177,8 +189,10 @@ export default class Cart {
           
         if (response.status == 200) {
           this.modal.setTitle("Success!"); //Заменить заголовок модального окна 
-          this.cartItems = [];
-                
+          this.cartItems = [];  //удаление товаров из корзины
+          this.cartIcon.update(this);
+           
+          //Заменить содержимое тела модального окна на верстку:
           let newBody = createElement(`<div class="modal__body-inner">
               <p>
               Order successful! Your order is being cooked :) <br>
@@ -187,8 +201,8 @@ export default class Cart {
               </p>
               </div>
             `);
-          //Заменить содержимое тела модального окна на верстку:
-          this.modal.setBody(newBody);   
+          this.modal.setBody(newBody);
+
         }
       });
     });

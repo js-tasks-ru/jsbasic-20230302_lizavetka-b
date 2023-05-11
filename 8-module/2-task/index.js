@@ -41,7 +41,7 @@ export default class ProductGrid {
       filtered = filtered.filter(item => 
         (item.vegeterian == true));
     }
-    if (filters.maxSpiciness) {
+    if (filters.maxSpiciness < 4) {
       filtered = filtered.filter(item => 
         (item.spiciness <= filters.maxSpiciness));
     }

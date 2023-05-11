@@ -46,7 +46,7 @@ export default class StepSlider {
     let currentPos = target - sliderPos.x;
     let oneStep = sliderPos.width / (this.steps-1);
     this.value = Math.round(currentPos / oneStep);
-    console.log(this.value);
+     //получение процентов:
     let percentage = this.value / (this.steps-1) * 100;
 
     let temp = this.elem.querySelector('.slider__steps'); //удаление предыдущих активных классов
@@ -77,6 +77,9 @@ export default class StepSlider {
   #onPointer = (event) => {
     let thumb = this.elem.querySelector('.slider__thumb'); 
     thumb.ondragstart = () => false; //выключить встроенный браузерный Drag-and-Drop
+    thumb.onpointerdown.preventDefault();
+    thumb.onpointermove.preventDefault();
+    
     //подготовить к перемещению
       thumb.style.position = 'absolute';
       thumb.style.zIndex = 1000;

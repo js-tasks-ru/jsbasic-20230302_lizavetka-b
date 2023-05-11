@@ -53,7 +53,7 @@ export default class StepSlider {
       this.#changeValues(percentage);
     }
     
-  #changeValues(percentage) {
+  #changeValues = (percentage) => {
       //изменения значений
       this.elem.querySelector('.slider__value').textContent= this.value;
       this.elem.querySelector('.slider__steps').childNodes[this.value+1].classList.add('slider__step-active');
