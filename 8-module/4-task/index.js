@@ -202,10 +202,10 @@ export default class Cart {
           this.modal.setBody(newBody);
         }
           
-      response.json()
-        .then((json) => console.log(json));
+   /*   response.json()
+        .then((json) => console.log(json));*/
     })
-  }  
+} 
 
   addEventListeners() {
     this.cartIcon.elem.onclick = () => this.renderModal();
