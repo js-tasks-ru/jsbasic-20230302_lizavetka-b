@@ -9,9 +9,10 @@ export default class CartIcon {
 
   render() {
     this.elem = createElement('<div class="cart-icon"></div>');
+    return this.elem;
   }
 
-  update(cart) {
+  update(cart) {  //обновление иконки
     if (!cart.isEmpty()) {
       this.elem.classList.add('cart-icon_visible');
 
@@ -38,7 +39,44 @@ export default class CartIcon {
     window.addEventListener('resize', () => this.updatePosition());
   }
 
-  updatePosition() {
-    // ваш код ...
+  updatePosition() { //позиционирование на экране
+    if (!this.elem.offsetHeight || !this.elem.offsetWidth) return;
+
+    if (!this.initialTopCoord) {
+      this.initialTopCoord = this.elem.getBoundingClientRect().top + window.scrollY;
+    }
+
+    if (window.pageYOffset > this.initialTopCoord) {
+      // плавающая корзина
+      let posFromContainer = document.querySelector('.container').getBoundingClientRect().right + 20;
+      let posFromEdge = document.documentElement.clientWidth - this.elem.offsetWidth - 10;
+      let newXPos = Math.min(posFromEdge, posFromContainer);
+      
+      Object.assign(this.elem.style, {
+          position: 'fixed',
+          top: '50px',
+          left: `${newXPos}px`,
+          zIndex: 1e3,
+        });
+
+    } else {
+      // корзина сверху
+      Object.assign(this.elem.style, {
+        position: '',
+        top: '',
+        left: '',
+        zIndex: ''
+      });
+    }
+    //мобильные
+    let isMobile = document.documentElement.clientWidth <= 767;
+    if (isMobile) {
+      Object.assign(this.elem.style, {
+          position: '',
+          top: '',
+          left: '',
+          zIndex: ''
+        });
+    }
   }
 }
