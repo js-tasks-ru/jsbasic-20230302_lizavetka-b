@@ -88,14 +88,6 @@ export default class StepSlider {
       let progress = this.elem.querySelector('.slider__progress');
       this.elem.classList.add('slider_dragging');
       
-      let stop = () => {
-        document.removeEventListener('pointermove', onMove);
-        thumb.onpointerup = null;
-        this.onPointerUp();
-      }; 
-  
-      document.addEventListener('pointermove', onMove); //слушать событие
-      document.addEventListener('pointerup', stop); //слушать завершение события
 
       let moveAt = (clientX) => { //двигать 
       
@@ -119,12 +111,24 @@ export default class StepSlider {
     };
 
     moveAt(event.clientX);
-    
-    function onMove(event) {
+
+    document.addEventListener('pointermove', onMove); //слушать событие
+
+    function onMove(event) { 
       moveAt(event.clientX);
     }
+
+    stop = () => {  
+      document.removeEventListener('pointermove', onMove);
+      thumb.onpointerup = null;
+      this.onPointerUp();
+    }; 
+
+    thumb.addEventListener('pointerup', stop); //слушать завершение события
+    
   }; 
 
+  
   onPointerUp = () => { //окончание движения
    
     this.elem.classList.remove('slider_dragging');
